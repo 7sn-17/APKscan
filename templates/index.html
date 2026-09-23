@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APKscan — افحص تطبيقاتك قبل التثبيت</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #059669;
+  --primary-dark: #047857;
+  --primary-light: #ecfdf5;
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-sub: #64748b;
+  --border: #e2e8f0;
+  --danger: #dc2626;
+  --warn: #d97706;
+  --info: #2563eb;
+  --radius: 20px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-md: 0 8px 25px -6px rgba(0,0,0,0.08);
+  --shadow-lg: 0 20px 60px -15px rgba(5,150,105,0.3);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Readex Pro', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 14px;
+}
+
+/* ============ Header ============ */
+.site-header {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  color: #fff;
+}
+.site-header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.site-header .logo i {
+  font-size: 1.6rem;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+}
+.site-header .badge {
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* ============ Main Card ============ */
+.main-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 36px 28px;
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-card::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(5,150,105,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.main-card h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.main-card .subtitle {
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ Upload Zone ============ */
+.upload-zone {
+  border: 3px dashed var(--primary);
+  border-radius: 18px;
+  padding: 40px 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: var(--primary-light);
+  position: relative;
+  z-index: 1;
+}
+.upload-zone:hover {
+  background: #d1fae5;
+  transform: translateY(-2px);
+}
+.upload-zone.dragover {
+  background: #a7f3d0;
+  transform: scale(1.02);
+  border-color: var(--primary-dark);
+}
+.upload-zone.has-file {
+  background: #d1fae5;
+  border-style: solid;
+}
+.upload-zone .upload-icon {
+  font-size: 3.5rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+  display: block;
+}
+.upload-zone .upload-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 6px;
+}
+.upload-zone .upload-hint {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+}
+.upload-zone .file-info {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(5,150,105,0.2);
+}
+.upload-zone.has-file .file-info {
+  display: flex;
+}
+.upload-zone.has-file .upload-icon,
+.upload-zone.has-file .upload-text,
+.upload-zone.has-file .upload-hint {
+  display: none;
+}
+.file-info .file-name {
+  font-weight: 700;
+  color: var(--primary-dark);
+  word-break: break-all;
+  font-size: 0.9rem;
+}
+.file-info .file-size {
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  background: #fff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.file-info .remove-btn {
+  background: rgba(220,38,38,0.1);
+  color: var(--danger);
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.file-info .remove-btn:hover {
+  background: rgba(220,38,38,0.2);
+}
+
+input[type=file] { display: none; }
+
+/* ============ Buttons ============ */
+.btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #10b981);
+  color: #fff;
+  box-shadow: 0 8px 20px -6px rgba(5,150,105,0.5);
+}
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -8px rgba(5,150,105,0.6);
+}
+.btn-primary:disabled {
+  background: #cbd5e1;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.7;
+}
+
+/* ============ Features ============ */
+.features {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.feature-item {
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  font-weight: 600;
+}
+.feature-item i {
+  display: block;
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 6px;
+}
+
+/* ============ Stats Section ============ */
+.stats-section {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 20px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.stats-title {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.stat-box {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  color: #fff;
+}
+.stat-box .stat-val {
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+.stat-box .stat-lbl {
+  font-size: 0.72rem;
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+/* ============ Footer ============ */
+.site-footer {
+  margin-top: 24px;
+  text-align: center;
+  color: rgba(255,255,255,0.8);
+  font-size: 0.75rem;
+  padding-bottom: 20px;
+}
+.site-footer i { color: #fff; }
+
+/* ============ Loading Overlay ============ */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  color: #fff;
+  text-align: center;
+}
+.loading-overlay.active {
+  display: flex;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.loading-container {
+  max-width: 400px;
+  width: 100%;
+}
+
+.spinner-circle {
+  width: 90px;
+  height: 90px;
+  border: 6px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  margin: 0 auto 30px;
+  position: relative;
+}
+.spinner-circle::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 4px solid rgba(255,255,255,0.15);
+  border-bottom-color: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  animation: spin 2s linear infinite reverse;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.loading-file {
+  font-size: 0.85rem;
+  opacity: 0.85;
+  margin-bottom: 24px;
+  word-break: break-all;
+  font-family: 'JetBrains Mono', monospace;
+}
+.loading-stage {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  min-height: 24px;
+}
+
+.progress-bar-wrap {
+  width: 100%;
+  height: 10px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #fff;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+.progress-text {
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.loading-hint {
+  margin-top: 30px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-align: right;
+}
+.loading-hint strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* ============ Error Toast ============ */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150px);
+  background: #dc2626;
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 30px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10000;
+  box-shadow: 0 10px 30px rgba(220,38,38,0.4);
+  max-width: 90%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 400px) {
+  .main-card { padding: 28px 20px; }
+  .main-card h1 { font-size: 1.35rem; }
+  .upload-zone { padding: 30px 15px; }
+  .upload-zone .upload-icon { font-size: 2.8rem; }
+  .features { grid-template-columns: 1fr; }
+  .stat-box .stat-val { font-size: 1.3rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ Header ============ -->
+<header class="site-header">
+  <div class="logo">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>APKscan</span>
+  </div>
+  <div class="badge">v1.1</div>
+</header>
+
+<!-- ============ Main Card ============ -->
+<main class="main-card">
+  <h1> افحص تطبيقاتك قبل التثبيت</h1>
+  <p class="subtitle">ارفع ملف APK أو XAPK واحصل على تقرير أمان شامل</p>
+
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+    <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+    <div class="upload-text">اضغط لاختيار ملف أو اسحبه هنا</div>
+    <div class="upload-hint">APK / XAPK — حتى 2 GB</div>
+    <div class="file-info" id="fileInfo">
+      <i class="fa-solid fa-file-shield" style="color:var(--primary); font-size:1.4rem;"></i>
+      <div style="flex:1; text-align:right;">
+        <div class="file-name" id="fileName">—</div>
+        <div class="file-size" id="fileSize" style="display:inline-block; margin-top:4px;">—</div>
+      </div>
+      <button class="remove-btn" id="removeBtn" onclick="event.stopPropagation(); removeFile();">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+  </div>
+
+  <input type="file" id="fileInput" accept=".apk,.xapk">
+
+  <button class="btn btn-primary" id="scanBtn" disabled>
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span>ابدأ الفحص</span>
+  </button>
+
+  <div class="features">
+    <div class="feature-item">
+      <i class="fa-solid fa-key"></i>
+      فحص الصلاحيات
+    </div>
+    <div class="feature-item">
+      <i class="fa-solid fa-code"></i>
+      الأنماط المشبوهة
+    </div>
+    <div class="feature-item">
+      <i class="fa-solid fa-globe"></i>
+      تحليل URLs
+    </div>
+    <div class="feature-item">
+      <i class="fa-solid fa-box-open"></i>
+      دعم XAPK
+    </div>
+  </div>
+</main>
+
+<!-- ============ Stats Section ============ -->
+<section class="stats-section">
+  <div class="stats-title">
+    <i class="fa-solid fa-chart-simple"></i>
+    إحصائيات الموقع
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <div class="stat-val" id="statScans">{{ stats.total_scans }}</div>
+      <div class="stat-lbl">فحص</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statUsers">{{ stats.unique_users }}</div>
+      <div class="stat-lbl">مستخدم</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statFiles">{{ stats.total_files }}</div>
+      <div class="stat-lbl">ملف</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" id="statSize">{{ "%.0f"|format(stats.total_size_mb) }}</div>
+      <div class="stat-lbl">MB مفحوص</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Footer ============ -->
+<footer class="site-footer">
+  <i class="fa-solid fa-lock"></i>
+  تُحذف الملفات تلقائياً بعد 30 دقيقة — خصوصيتك محفوظة
+  <div style="margin-top: 8px; font-weight: 700; color: #fff;">
+    المطور حسن المحمد
+  </div>
+</footer>
+
+<!-- ============ Loading Overlay ============ -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-container">
+    <div class="spinner-circle"></div>
+    <div class="loading-title">جاري الفحص...</div>
+    <div class="loading-file" id="loadingFile">—</div>
+    <div class="loading-stage" id="loadingStage">في قائمة الانتظار...</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">0%</div>
+    
+    <div class="loading-hint">
+      <strong><i class="fa-solid fa-circle-info"></i> معلومة:</strong>
+      الفحص قد يأخذ من 30 ثانية إلى دقيقة، حسب حجم الملف. لا تغلق الصفحة.
+    </div>
+  </div>
+</div>
+
+<!-- ============ Toast ============ -->
+<div class="toast" id="toast">
+  <i class="fa-solid fa-circle-exclamation"></i>
+  <span id="toastText">خطأ</span>
+</div>
+
+<script>
+// ============ Elements ============
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+const fileInfo = document.getElementById('fileInfo');
+const fileName = document.getElementById('fileName');
+const fileSize = document.getElementById('fileSize');
+const scanBtn = document.getElementById('scanBtn');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const loadingFile = document.getElementById('loadingFile');
+const loadingStage = document.getElementById('loadingStage');
+const progressFill = document.getElementById('progressFill');
+const progressText = document.getElementById('progressText');
+const toast = document.getElementById('toast');
+const toastText = document.getElementById('toastText');
+
+let selectedFile = null;
+let pollTimer = null;
+
+// ============ Helpers ============
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+  return (bytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+}
+
+function showToast(msg) {
+  toastText.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// ============ File Selection ============
+fileInput.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (f) setFile(f);
+});
+
+function setFile(f) {
+  const valid = f.name.toLowerCase().endsWith('.apk') || f.name.toLowerCase().endsWith('.xapk');
+  if (!valid) {
+    showToast('فقط ملفات APK أو XAPK مدعومة');
+    return;
+  }
+  if (f.size > 2 * 1024 * 1024 * 1024) {
+    showToast('حجم الملف أكبر من 2 جيجابايت');
+    return;
+  }
+  selectedFile = f;
+  fileName.textContent = f.name;
+  fileSize.textContent = formatSize(f.size);
+  uploadZone.classList.add('has-file');
+  scanBtn.disabled = false;
+}
+
+function removeFile() {
+  selectedFile = null;
+  fileInput.value = '';
+  uploadZone.classList.remove('has-file');
+  scanBtn.disabled = true;
+}
+
+// ============ Drag & Drop ============
+['dragenter', 'dragover'].forEach(ev => {
+  uploadZone.addEventListener(ev, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadZone.classList.add('dragover');
+  });
+});
+
+['dragleave', 'drop'].forEach(ev => {
+  uploadZone.addEventListener(ev, e => {
+    e.preventDefault();
+    e.stopPropagation();
+    uploadZone.classList.remove('dragover');
+  });
+});
+
+uploadZone.addEventListener('drop', e => {
+  const f = e.dataTransfer.files[0];
+  if (f) setFile(f);
+});
+
+// ============ Start Scan ============
+scanBtn.addEventListener('click', async () => {
+  if (!selectedFile) return;
+  
+  loadingFile.textContent = selectedFile.name;
+  loadingStage.textContent = 'جاري الرفع...';
+  progressFill.style.width = '5%';
+  progressText.textContent = '5%';
+  loadingOverlay.classList.add('active');
+  
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+  
+  try {
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+    
+    const data = await res.json();
+    
+    if (data.error) {
+      loadingOverlay.classList.remove('active');
+      showToast(data.error);
+      return;
+    }
+    
+    const jobId = data.job_id;
+    progressFill.style.width = '15%';
+    progressText.textContent = '15%';
+    loadingStage.textContent = 'جاري التحليل...';
+    
+    // بدء الـ polling
+    startPolling(jobId);
+    
+  } catch (err) {
+    loadingOverlay.classList.remove('active');
+    showToast('فشل الاتصال بالسيرفر — تحقق من الإنترنت');
+    console.error(err);
+  }
+});
+
+// ============ Polling ============
+function startPolling(jobId) {
+  if (pollTimer) clearInterval(pollTimer);
+  
+  let fakeProgress = 15;
+  
+  pollTimer = setInterval(async () => {
+    try {
+      const res = await fetch(`/api/status/${jobId}`);
+      
+      if (!res.ok) {
+        clearInterval(pollTimer);
+        loadingOverlay.classList.remove('active');
+        showToast('انتهت صلاحية المهمة');
+        return;
+      }
+      
+      const data = await res.json();
+      
+      // تحديث الحالة
+      if (data.stage) {
+        loadingStage.textContent = data.stage;
+      }
+      
+      // محاكاة تقدم سلس
+      if (data.progress && data.progress > fakeProgress) {
+        fakeProgress = data.progress;
+      } else {
+        fakeProgress = Math.min(90, fakeProgress + 1);
+      }
+      
+      progressFill.style.width = fakeProgress + '%';
+      progressText.textContent = Math.round(fakeProgress) + '%';
+      
+      // النتيجة
+      if (data.status === 'done') {
+        clearInterval(pollTimer);
+        progressFill.style.width = '100%';
+        progressText.textContent = '100%';
+        loadingStage.textContent = 'اكتمل الفحص! جاري فتح التقرير...';
+        
+        // تحديث الإحصائيات
+        updateStats();
+        
+        setTimeout(() => {
+          window.location.href = `/result/${jobId}`;
+        }, 800);
+      }
+      
+      if (data.status === 'error') {
+        clearInterval(pollTimer);
+        loadingOverlay.classList.remove('active');
+        showToast(data.error || 'حدث خطأ أثناء الفحص');
+      }
+      
+    } catch (err) {
+      console.error(err);
+    }
+  }, 1200);
+}
+
+// ============ Stats Update ============
+async function updateStats() {
+  try {
+    const res = await fetch('/api/stats');
+    const data = await res.json();
+    
+    document.getElementById('statScans').textContent = data.total_scans || 0;
+    document.getElementById('statUsers').textContent = data.unique_users || 0;
+    document.getElementById('statFiles').textContent = data.total_files || 0;
+    document.getElementById('statSize').textContent = Math.round(data.total_size_mb || 0);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// ============ Init ============
+window.addEventListener('DOMContentLoaded', () => {
+  // تحديث الإحصائيات كل 30 ثانية
+  setInterval(updateStats, 30000);
+});
+</script>
+</body>
+</html>

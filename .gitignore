@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+apk_report_*.html
+apk_report_*.json
+stats.json
+apkscan_stats.json
+.venv/
+venv/
+*.log
+.DS_Store
