@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تواصل معنا - APKscan</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #059669;
+  --primary-dark: #047857;
+  --primary-light: #ecfdf5;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-sub: #64748b;
+  --border: #e2e8f0;
+  --radius: 20px;
+  --shadow-lg: 0 20px 60px -15px rgba(5,150,105,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Readex Pro', sans-serif; }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.8;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.legal-card {
+  width: 100%;
+  max-width: 750px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-lg);
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  transition: all 0.3s;
+}
+.back-btn:hover { background: #d1fae5; transform: translateX(5px); }
+h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+h1 i { color: var(--primary); font-size: 1.6rem; }
+.subtitle {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+.intro-box {
+  background: linear-gradient(135deg, var(--primary), #10b981);
+  color: #fff;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.intro-box h2 {
+  color: #fff;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.intro-box p {
+  color: rgba(255,255,255,0.95);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.contact-grid {
+  display: grid;
+  gap: 14px;
+  margin: 25px 0;
+}
+.contact-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: all 0.3s;
+  text-decoration: none;
+  color: inherit;
+}
+.contact-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -8px rgba(5,150,105,0.3);
+}
+.contact-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+.contact-icon.email {
+  background: linear-gradient(135deg, #dc2626, #ef4444);
+}
+.contact-icon.telegram {
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+}
+.contact-icon.whatsapp {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+.contact-icon.instagram {
+  background: linear-gradient(135deg, #d946ef, #f97316, #fbbf24);
+}
+.contact-info {
+  flex: 1;
+  text-align: right;
+}
+.contact-info .label {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+}
+.contact-info .value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  word-break: break-all;
+  direction: ltr;
+  text-align: right;
+}
+.contact-arrow {
+  font-size: 1.2rem;
+  color: var(--primary);
+  opacity: 0.6;
+  transition: all 0.3s;
+}
+.contact-card:hover .contact-arrow {
+  opacity: 1;
+  transform: translateX(-5px);
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 30px 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title i {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.faq-item {
+  background: var(--primary-light);
+  border-right: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 12px;
+}
+.faq-item .q {
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+}
+.faq-item .a {
+  color: #334155;
+  font-size: 0.87rem;
+  margin: 0;
+  line-height: 1.7;
+}
+.faq-item .a a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 1px dashed var(--primary);
+}
+
+.updated {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--border);
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 0.82rem;
+}
+.updated i {
+  color: #dc2626;
+}
+@media (max-width: 500px) {
+  .legal-card { padding: 25px 18px; }
+  h1 { font-size: 1.4rem; }
+  .contact-card { padding: 14px; gap: 12px; }
+  .contact-icon { width: 46px; height: 46px; font-size: 1.3rem; }
+  .contact-info .value { font-size: 0.85rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="legal-card">
+  <a href="/" class="back-btn">
+    <i class="fa-solid fa-arrow-right"></i>
+    العودة للرئيسية
+  </a>
+  
+  <h1>
+    <i class="fa-solid fa-envelope"></i>
+    تواصل معنا
+  </h1>
+  <p class="subtitle">
+    نحن سعداء بسماعك! لأي استفسار، اقتراح، أو مشكلة — تواصل معنا.
+  </p>
+
+  <div class="intro-box">
+    <h2>
+      <i class="fa-solid fa-comments"></i>
+      نرد خلال 24 ساعة
+    </h2>
+    <p>أرسل لنا رسالتك وسنرد عليك في أقرب وقت ممكن</p>
+  </div>
+
+  <div class="section-title">
+    <i class="fa-solid fa-paper-plane"></i>
+    قنوات التواصل
+  </div>
+
+  <div class="contact-grid">
+    
+    <!-- البريد الإلكتروني -->
+    <a href="mailto:hasantaha5689@gmail.com" class="contact-card">
+      <div class="contact-icon email">
+        <i class="fa-solid fa-envelope"></i>
+      </div>
+      <div class="contact-info">
+        <div class="label">البريد الإلكتروني</div>
+        <div class="value">hasantaha5689@gmail.com</div>
+      </div>
+      <i class="fa-solid fa-arrow-left contact-arrow"></i>
+    </a>
+
+    <!-- تيليجرام (مصحّح) -->
+    <a href="https://t.me/DOVx3" target="_blank" rel="noopener" class="contact-card">
+      <div class="contact-icon telegram">
+        <i class="fa-brands fa-telegram"></i>
+      </div>
+      <div class="contact-info">
+        <div class="label">تيليجرام</div>
+        <div class="value">@DOVx3</div>
+      </div>
+      <i class="fa-solid fa-arrow-left contact-arrow"></i>
+    </a>
+
+    <!-- واتساب -->
+    <a href="https://wa.me/17862927607" target="_blank" rel="noopener" class="contact-card">
+      <div class="contact-icon whatsapp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </div>
+      <div class="contact-info">
+        <div class="label">واتساب</div>
+        <div class="value">+1 (786) 292-7607</div>
+      </div>
+      <i class="fa-solid fa-arrow-left contact-arrow"></i>
+    </a>
+
+    <!-- إنستغرام -->
+    <a href="https://www.instagram.com/7sn__08" target="_blank" rel="noopener" class="contact-card">
+      <div class="contact-icon instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </div>
+      <div class="contact-info">
+        <div class="label">إنستغرام</div>
+        <div class="value">@7sn__08</div>
+      </div>
+      <i class="fa-solid fa-arrow-left contact-arrow"></i>
+    </a>
+
+  </div>
+
+  <div class="section-title">
+    <i class="fa-solid fa-circle-question"></i>
+    أسئلة شائعة
+  </div>
+
+  <div class="faq-item">
+    <div class="q">
+      <i class="fa-solid fa-question"></i>
+      كيف أحذف تقريري؟
+    </div>
+    <p class="a">التقارير تُحذف تلقائياً بعد 5 دقائق من الفحص. لا تحتاج لفعل شيء.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="q">
+      <i class="fa-solid fa-question"></i>
+      هل تحفظون ملفاتي؟
+    </div>
+    <p class="a">لا. تُحذف الملفات تلقائياً بعد الفحص مباشرة. لا نحتفظ بأي نسخة.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="q">
+      <i class="fa-solid fa-question"></i>
+      هل النتائج دقيقة 100%؟
+    </div>
+    <p class="a">الفحص تحليلي أولي. قد لا يكشف جميع التهديدات. راجع شروط الخدمة.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="q">
+      <i class="fa-solid fa-question"></i>
+      هل الموقع مجاني؟
+    </div>
+    <p class="a">نعم، مجاني بالكامل. لا يحتاج تسجيل ولا رسوم.</p>
+  </div>
+
+  <div class="faq-item">
+    <div class="q">
+      <i class="fa-solid fa-question"></i>
+      كيف أساهم في التطوير؟
+    </div>
+    <p class="a">
+      نرحب بأي اقتراح أو ملاحظة. أرسل لنا عبر 
+      <a href="https://t.me/DOVx3" target="_blank" rel="noopener">تيليجرام</a> 
+      أو 
+      <a href="mailto:hasantaha5689@gmail.com">البريد الإلكتروني</a>.
+      <br><br>
+      وإذا أردت دعم استمرار الموقع مادياً، يمكنك التواصل معنا عبر 
+      <a href="https://t.me/DOVx3" target="_blank" rel="noopener">تيليجرام</a>.
+    </p>
+  </div>
+
+  <div class="updated">
+    <i class="fa-solid fa-heart"></i>
+    شكراً لاستخدامك APKscan
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شروط الخدمة - APKscan</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #059669;
+  --primary-dark: #047857;
+  --primary-light: #ecfdf5;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-sub: #64748b;
+  --border: #e2e8f0;
+  --radius: 20px;
+  --shadow-lg: 0 20px 60px -15px rgba(5,150,105,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Readex Pro', sans-serif; }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.8;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.legal-card {
+  width: 100%;
+  max-width: 750px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-lg);
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  transition: all 0.3s;
+}
+.back-btn:hover { background: #d1fae5; transform: translateX(5px); }
+h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+h1 i { color: var(--primary); font-size: 1.6rem; }
+.subtitle {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 30px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+p { color: #334155; margin-bottom: 12px; font-size: 0.95rem; }
+ul, ol { padding-right: 24px; margin-bottom: 15px; }
+li { color: #334155; margin-bottom: 8px; font-size: 0.95rem; }
+li::marker { color: var(--primary); font-weight: 700; }
+strong { color: var(--primary-dark); font-weight: 700; }
+a { color: var(--primary); text-decoration: none; font-weight: 600; border-bottom: 1px dashed var(--primary); }
+
+.info-box {
+  background: var(--primary-light);
+  border-right: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 20px 0;
+}
+.info-box.warning { background: #fff7ed; border-right-color: #f97316; }
+.info-box.danger { background: #fef2f2; border-right-color: #dc2626; }
+.info-box .box-title {
+  font-weight: 800;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+.info-box.warning .box-title { color: #c2410c; }
+.info-box.danger .box-title { color: #b91c1c; }
+.info-box p { margin-bottom: 8px; font-size: 0.88rem; }
+.info-box p:last-child { margin-bottom: 0; }
+
+.grid-boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 15px 0;
+}
+.box {
+  padding: 12px;
+  border-radius: 10px;
+  border-right: 4px solid;
+}
+.box.green { background: #ecfdf5; border-right-color: #059669; }
+.box.red { background: #fef2f2; border-right-color: #dc2626; }
+.box .box-title {
+  font-weight: 800;
+  margin-bottom: 4px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.box.green .box-title { color: #047857; }
+.box.red .box-title { color: #b91c1c; }
+.box p { margin: 0; font-size: 0.8rem; color: #475569; }
+
+.updated {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--border);
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 0.82rem;
+}
+@media (max-width: 500px) {
+  .legal-card { padding: 25px 18px; }
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 1.05rem; }
+  .grid-boxes { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="legal-card">
+  <a href="/" class="back-btn">
+    <i class="fa-solid fa-arrow-right"></i>
+    العودة للرئيسية
+  </a>
+  
+  <h1>
+    <i class="fa-solid fa-file-contract"></i>
+    شروط الخدمة
+  </h1>
+  <p class="subtitle">
+    باستخدامك لـ APKscan، فإنك توافق على هذه الشروط. اقرأها بعناية.
+  </p>
+
+  <h2><span class="num">1</span> قبول الشروط</h2>
+  <p>بدخولك إلى موقع APKscan أو استخدام أي من خدماته، فإنك تقرّ بأنك:</p>
+  <ul>
+    <li>قرأت هذه الشروط وفهمتها</li>
+    <li>توافق عليها بالكامل</li>
+    <li>تمتلك الأهلية القانونية للتعاقد</li>
+  </ul>
+
+  <h2><span class="num">2</span> وصف الخدمة</h2>
+  <p>APKscan هي خدمة <strong>مجانية</strong> لفحص تطبيقات أندرويد (APK/XAPK). توفر:</p>
+  <ul>
+    <li>تحليل الصلاحيات المعلنة</li>
+    <li>كشف الأنماط المشبوهة</li>
+    <li>تحليل الروابط والمكتبات</li>
+    <li>تقييم عام للأمان</li>
+  </ul>
+  <p><strong>الخدمة تقدم "كما هي"</strong> وليست بديلاً عن برامج مكافحة الفيروسات.</p>
+
+  <h2><span class="num">3</span> الاستخدام المقبول</h2>
+  <p>يُمنع تماماً:</p>
+  <ul>
+    <li>❌ رفع ملفات ضارة بقصد الإضرار</li>
+    <li>❌ محاولة اختراق الخدمة أو تعطيلها</li>
+    <li>❌ الاستخدام التجاري المكثف (أكثر من 500 فحص/يوم)</li>
+    <li>❌ انتهاك حقوق الملكية الفكرية</li>
+    <li>❌ رفع ملفات كبيرة بشكل متكرر بقصد الإضرار</li>
+    <li>❌ استخدام أدوات آلية للرفع الجماعي</li>
+    <li>❌ انتحال هوية شخص آخر</li>
+  </ul>
+
+  <h2><span class="num">4</span> الملكية الفكرية</h2>
+  <p><strong>مملوك لنا:</strong></p>
+  <ul>
+    <li>تصميم الموقع</li>
+    <li>الكود المصدري</li>
+    <li>العلامة التجارية APKscan</li>
+    <li>خوارزميات الفحص</li>
+  </ul>
+  <p><strong>مملوك لك:</strong></p>
+  <ul>
+    <li>الملفات التي ترفعها</li>
+    <li>بياناتك الشخصية</li>
+  </ul>
+
+  <h2><span class="num">5</span> إخلاء المسؤولية</h2>
+  
+  <div class="info-box warning">
+    <div class="box-title">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      تنبيه مهم جداً
+    </div>
+    <p>APKscan هي <strong>أداة مساعدة للفحص الأولي</strong> وليست ضماناً كاملاً. النتائج تحليلية ولا تعني أن التطبيق آمن 100% أو خطير 100%.</p>
+  </div>
+
+  <p><strong>ما نفحصه:</strong></p>
+  <div class="grid-boxes">
+    <div class="box green">
+      <div class="box-title"><i class="fa-solid fa-check"></i> نفحص</div>
+      <p>الصلاحيات المعلنة</p>
+    </div>
+    <div class="box green">
+      <div class="box-title"><i class="fa-solid fa-check"></i> نفحص</div>
+      <p>الأنماط المشبوهة</p>
+    </div>
+    <div class="box green">
+      <div class="box-title"><i class="fa-solid fa-check"></i> نفحص</div>
+      <p>الروابط والمكتبات</p>
+    </div>
+    <div class="box green">
+      <div class="box-title"><i class="fa-solid fa-check"></i> نفحص</div>
+      <p>التوقيع الرقمي</p>
+    </div>
+  </div>
+
+  <p><strong>ما قد لا نكتشفه:</strong></p>
+  <div class="grid-boxes">
+    <div class="box red">
+      <div class="box-title"><i class="fa-solid fa-xmark"></i> قد لا نكتشف</div>
+      <p>الفيروسات المتقدمة</p>
+    </div>
+    <div class="box red">
+      <div class="box-title"><i class="fa-solid fa-xmark"></i> قد لا نكتشف</div>
+      <p>التهديدات المخفية</p>
+    </div>
+    <div class="box red">
+      <div class="box-title"><i class="fa-solid fa-xmark"></i> قد لا نكتشف</div>
+      <p>البرمجيات المتطورة</p>
+    </div>
+    <div class="box red">
+      <div class="box-title"><i class="fa-solid fa-xmark"></i> قد لا نكتشف</div>
+      <p>الهجمات الديناميكية</p>
+    </div>
+  </div>
+
+  <div class="info-box danger">
+    <div class="box-title">
+      <i class="fa-solid fa-ban"></i>
+      حدود المسؤولية
+    </div>
+    <p><strong>APKscan لا تتحمل أي مسؤولية عن:</strong></p>
+    <p>❌ أي ضرر يلحق جهازك</p>
+    <p>❌ سرقة بيانات أو معلومات</p>
+    <p>❌ أي خسارة مالية</p>
+    <p>❌ قرارات مبنية على التقارير</p>
+  </div>
+
+  <p style="background: #fef3c7; padding: 15px; border-radius: 12px; border-right: 4px solid #d97706;">
+    <strong>⚠️ قرار تثبيت أي تطبيق هو مسؤوليتك وحدك.</strong>
+  </p>
+
+  <h2><span class="num">6</span> تعويض المستخدم</h2>
+  <p>توافق على تعويض APKscan وفريقها عن أي مطالبات أو دعاوى تنشأ عن:</p>
+  <ul>
+    <li>استخدامك غير القانوني للخدمة</li>
+    <li>انتهاكك لهذه الشروط</li>
+    <li>انتهاكك لحقوق أي طرف ثالث</li>
+  </ul>
+
+  <h2><span class="num">7</span> إنهاء الخدمة</h2>
+  <p>نحتفظ بالحق في:</p>
+  <ul>
+    <li>إيقاف الخدمة مؤقتاً لأي سبب</li>
+    <li>حظر أي مستخدم يخالف الشروط</li>
+    <li>إيقاف الخدمة نهائياً بدون إشعار مسبق</li>
+  </ul>
+
+  <h2><span class="num">8</span> التعديلات على الشروط</h2>
+  <p>قد نحدّث هذه الشروط في أي وقت. التحديثات تنطبق فوراً. استمرارك في استخدام الخدمة = موافقة على الشروط الجديدة.</p>
+
+  <h2><span class="num">9</span> القانون المطبق</h2>
+  <p>تخضع هذه الشروط للقوانين الدولية المعمول بها. أي نزاع يُحل ودياً أولاً، ثم عبر الجهات المختصة.</p>
+
+  <div class="updated">
+    <i class="fa-solid fa-calendar"></i>
+    آخر تحديث: 24 سبتمبر 2026
+  </div>
+</div>
+
+</body>
+</html>

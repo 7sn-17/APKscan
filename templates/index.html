@@ -312,15 +312,7 @@ input[type=file] { display: none; }
   font-weight: 600;
 }
 
-/* ============ Footer ============ */
-.site-footer {
-  margin-top: 24px;
-  text-align: center;
-  color: rgba(255,255,255,0.8);
-  font-size: 0.75rem;
-  padding-bottom: 20px;
-}
-.site-footer i { color: #fff; }
+
 
 /* ============ Loading Overlay ============ */
 .loading-overlay {
@@ -428,6 +420,38 @@ input[type=file] { display: none; }
   margin-bottom: 6px;
 }
 
+/* ============ Cancel Button (NEW) ============ */
+.cancel-btn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 12px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s;
+}
+.cancel-btn:hover {
+  background: rgba(220, 38, 38, 0.3);
+  border-color: rgba(220, 38, 38, 0.6);
+}
+.cancel-btn:active {
+  transform: scale(0.95);
+}
+.cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ============ Error Toast ============ */
 .toast {
   position: fixed;
@@ -464,6 +488,109 @@ input[type=file] { display: none; }
   .features { grid-template-columns: 1fr; }
   .stat-box .stat-val { font-size: 1.3rem; }
 }
+
+/* ============ Queue Info ============ */
+.queue-info {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  text-align: right;
+}
+.queue-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.85rem;
+}
+.queue-row i {
+  color: #fff;
+  opacity: 0.8;
+  font-size: 0.9rem;
+  width: 20px;
+  text-align: center;
+}
+.queue-row span {
+  opacity: 0.9;
+  flex: 1;
+}
+.queue-row strong {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+.queue-estimate {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255,255,255,0.25);
+  font-size: 0.82rem;
+  text-align: center;
+}
+.queue-estimate i {
+  margin-left: 6px;
+}
+.queue-estimate strong {
+  color: #fff;
+  font-weight: 800;
+}
+
+/* ============ Footer ============ */
+.site-footer {
+  width: 100%;
+  max-width: 520px;
+  margin-top: 40px;
+  padding-top: 24px;
+  padding-bottom: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  text-align: right;
+}
+
+.footer-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+  padding-right: 4px;
+}
+
+.footer-link {
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+}
+
+.footer-link i {
+  font-size: 0.82rem;
+  opacity: 0.9;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  text-decoration-color: #ffffff;
+  transform: translateX(-3px);
+}
+
+.footer-credit {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  padding-right: 4px;
+}
 </style>
 </head>
 <body>
@@ -485,7 +612,7 @@ input[type=file] { display: none; }
   <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
     <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
     <div class="upload-text">اضغط لاختيار ملف أو اسحبه هنا</div>
-    <div class="upload-hint">APK / XAPK — حتى 2 GB</div>
+    <div class="upload-hint">APK / XAPK — حتى 450 MB</div>
     <div class="file-info" id="fileInfo">
       <i class="fa-solid fa-file-shield" style="color:var(--primary); font-size:1.4rem;"></i>
       <div style="flex:1; text-align:right;">
@@ -553,24 +680,62 @@ input[type=file] { display: none; }
 
 <!-- ============ Footer ============ -->
 <footer class="site-footer">
-  <i class="fa-solid fa-lock"></i>
-  تُحذف الملفات تلقائياً بعد 30 دقيقة — خصوصيتك محفوظة
-  <div style="margin-top: 8px; font-weight: 700; color: #fff;">
-    المطور حسن المحمد
+  <div class="footer-nav">
+    <a href="/privacy" class="footer-link">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>سياسة الخصوصية</span>
+    </a>
+    <a href="/terms" class="footer-link">
+      <i class="fa-solid fa-file-contract"></i>
+      <span>شروط الخدمة</span>
+    </a>
+    <a href="/contact" class="footer-link">
+      <i class="fa-solid fa-envelope"></i>
+      <span>تواصل معنا</span>
+    </a>
   </div>
+  
+  <p class="footer-credit">
+المطور: حسن المحمد
+  </p>
 </footer>
 
 <!-- ============ Loading Overlay ============ -->
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-container">
     <div class="spinner-circle"></div>
-    <div class="loading-title">جاري الفحص...</div>
+    <div class="loading-title" id="loadingTitle">جاري الفحص...</div>
     <div class="loading-file" id="loadingFile">—</div>
     <div class="loading-stage" id="loadingStage">في قائمة الانتظار...</div>
+    
+    <!-- معلومات الطابور -->
+    <div class="queue-info" id="queueInfo" style="display:none;">
+      <div class="queue-row">
+        <i class="fa-solid fa-list-ol"></i>
+        <span>موقعك في الطابور:</span>
+        <strong id="queuePos">-</strong>
+      </div>
+      <div class="queue-row">
+        <i class="fa-solid fa-users"></i>
+        <span>إجمالي في الطابور:</span>
+        <strong id="queueTotal">-</strong>
+      </div>
+      <div class="queue-estimate" id="queueEstimate">
+        <i class="fa-solid fa-clock"></i>
+        الوقت المتوقع: <strong id="queueTime">-</strong>
+      </div>
+    </div>
+    
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="progressFill"></div>
     </div>
     <div class="progress-text" id="progressText">0%</div>
+    
+    <!-- 🆕 زر الإلغاء -->
+    <button class="cancel-btn" id="cancelBtn" onclick="cancelScan()">
+      <i class="fa-solid fa-xmark"></i>
+      <span>إلغاء الفحص</span>
+    </button>
     
     <div class="loading-hint">
       <strong><i class="fa-solid fa-circle-info"></i> معلومة:</strong>
@@ -596,13 +761,20 @@ const scanBtn = document.getElementById('scanBtn');
 const loadingOverlay = document.getElementById('loadingOverlay');
 const loadingFile = document.getElementById('loadingFile');
 const loadingStage = document.getElementById('loadingStage');
+const loadingTitle = document.getElementById('loadingTitle');
+const queueInfo = document.getElementById('queueInfo');
+const queuePos = document.getElementById('queuePos');
+const queueTotal = document.getElementById('queueTotal');
+const queueTime = document.getElementById('queueTime');
 const progressFill = document.getElementById('progressFill');
 const progressText = document.getElementById('progressText');
 const toast = document.getElementById('toast');
 const toastText = document.getElementById('toastText');
+const cancelBtn = document.getElementById('cancelBtn');
 
 let selectedFile = null;
 let pollTimer = null;
+let currentJobId = null;  // 🆕
 
 // ============ Helpers ============
 function formatSize(bytes) {
@@ -630,8 +802,8 @@ function setFile(f) {
     showToast('فقط ملفات APK أو XAPK مدعومة');
     return;
   }
-  if (f.size > 2 * 1024 * 1024 * 1024) {
-    showToast('حجم الملف أكبر من 2 جيجابايت');
+  if (f.size > 450 * 1024 * 1024) {
+    showToast('حجم الملف أكبر من 450 ميجابايت');
     return;
   }
   selectedFile = f;
@@ -671,52 +843,163 @@ uploadZone.addEventListener('drop', e => {
 });
 
 // ============ Start Scan ============
-scanBtn.addEventListener('click', async () => {
+scanBtn.addEventListener('click', () => {
   if (!selectedFile) return;
   
   loadingFile.textContent = selectedFile.name;
-  loadingStage.textContent = 'جاري الرفع...';
-  progressFill.style.width = '5%';
-  progressText.textContent = '5%';
+  loadingTitle.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> جاري رفع الملف...';
+  loadingStage.textContent = 'يتم إرسال الملف إلى السيرفر';
+  progressFill.style.width = '0%';
+  progressText.textContent = '0%';
+  queueInfo.style.display = 'none';
   loadingOverlay.classList.add('active');
+  
+  // 🆕 أظهر زر الإلغاء
+  cancelBtn.style.display = 'flex';
+  cancelBtn.disabled = false;
+  cancelBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> <span>إلغاء الفحص</span>';
   
   const formData = new FormData();
   formData.append('file', selectedFile);
   
-  try {
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-    
-    const data = await res.json();
-    
-    if (data.error) {
-      loadingOverlay.classList.remove('active');
-      showToast(data.error);
-      return;
+  // استخدام XMLHttpRequest لعرض تقدم الرفع
+  const xhr = new XMLHttpRequest();
+  
+  // تتبع تقدم الرفع
+  xhr.upload.addEventListener('progress', (e) => {
+    if (e.lengthComputable) {
+      const percent = (e.loaded / e.total) * 100;
+      const uploadPercent = Math.round(percent * 0.7);
+      progressFill.style.width = uploadPercent + '%';
+      progressText.textContent = uploadPercent + '%';
+      
+      const uploadedMB = (e.loaded / (1024 * 1024)).toFixed(1);
+      const totalMB = (e.total / (1024 * 1024)).toFixed(1);
+      loadingStage.textContent = `تم رفع ${uploadedMB} MB من ${totalMB} MB`;
+      
+      if (percent < 100) {
+        loadingTitle.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> جاري الرفع...';
+      } else {
+        loadingTitle.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> جاري المعالجة...';
+        loadingStage.textContent = 'انتظر قليلاً — جاري تحضير الفحص';
+      }
     }
-    
-    const jobId = data.job_id;
-    progressFill.style.width = '15%';
-    progressText.textContent = '15%';
-    loadingStage.textContent = 'جاري التحليل...';
-    
-    // بدء الـ polling
-    startPolling(jobId);
-    
-  } catch (err) {
+  });
+  
+  // انتهى الرفع
+  xhr.addEventListener('load', () => {
+    if (xhr.status === 200) {
+      try {
+        const data = JSON.parse(xhr.responseText);
+        
+        if (data.error) {
+          loadingOverlay.classList.remove('active');
+          showToast(data.error);
+          return;
+        }
+        
+        const jobId = data.job_id;
+        currentJobId = jobId;  // 🆕
+        progressFill.style.width = '75%';
+        progressText.textContent = '75%';
+        loadingTitle.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> جاري الفحص...';
+        loadingStage.textContent = 'جاري تحليل الملف...';
+        
+        startPolling(jobId);
+        
+      } catch (err) {
+        loadingOverlay.classList.remove('active');
+        showToast('خطأ في استجابة السيرفر');
+        console.error(err);
+      }
+    } else if (xhr.status === 413) {
+      loadingOverlay.classList.remove('active');
+      showToast('حجم الملف أكبر من 450 ميجابايت');
+    } else if (xhr.status === 503) {
+      loadingOverlay.classList.remove('active');
+      showToast('الطابور ممتلئ — حاول بعد دقائق');
+    } else {
+      loadingOverlay.classList.remove('active');
+      showToast('فشل الرفع — رمز الخطأ: ' + xhr.status);
+    }
+  });
+  
+  // خطأ
+  xhr.addEventListener('error', () => {
     loadingOverlay.classList.remove('active');
     showToast('فشل الاتصال بالسيرفر — تحقق من الإنترنت');
-    console.error(err);
-  }
+  });
+  
+  // إلغاء
+  xhr.addEventListener('abort', () => {
+    loadingOverlay.classList.remove('active');
+    showToast('تم إلغاء الرفع');
+  });
+  
+  // إرسال
+  xhr.open('POST', '/api/upload');
+  xhr.send(formData);
 });
+
+// ============ Cancel Scan (NEW) ============
+function cancelScan() {
+  if (!currentJobId) {
+    console.warn('[CANCEL] No job ID');
+    return;
+  }
+  
+  if (!confirm('هل أنت متأكد من إلغاء الفحص؟')) {
+    return;
+  }
+  
+  cancelBtn.disabled = true;
+  cancelBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>جاري الإلغاء...</span>';
+  
+  fetch(`/api/cancel/${currentJobId}`, {
+    method: 'POST'
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      // أغلق شاشة الانتظار
+      loadingOverlay.classList.remove('active');
+      currentJobId = null;
+      
+      // أوقف الـ polling
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+      
+      // رسالة نجاح
+      showToast('✅ تم إلغاء الفحص');
+      
+      // ارجع لصفحة الرفع
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    } else {
+      showToast('❌ ' + (data.error || 'فشل الإلغاء'));
+      cancelBtn.disabled = false;
+      cancelBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> <span>إلغاء الفحص</span>';
+    }
+  })
+  .catch(err => {
+    console.error('[CANCEL] Error:', err);
+    showToast('❌ فشل الاتصال بالسيرفر');
+    cancelBtn.disabled = false;
+    cancelBtn.innerHTML = '<i class="fa-solid fa-xmark"></i> <span>إلغاء الفحص</span>';
+  });
+}
 
 // ============ Polling ============
 function startPolling(jobId) {
   if (pollTimer) clearInterval(pollTimer);
   
-  let fakeProgress = 15;
+  currentJobId = jobId;  // 🆕
+  
+  let fakeProgress = 5;
+  let lastStatus = 'queued';
   
   pollTimer = setInterval(async () => {
     try {
@@ -731,29 +1014,70 @@ function startPolling(jobId) {
       
       const data = await res.json();
       
-      // تحديث الحالة
-      if (data.stage) {
-        loadingStage.textContent = data.stage;
+      // ===== حالة الانتظار في الطابور =====
+      if (data.status === 'queued') {
+        lastStatus = 'queued';
+        
+        if (data.queue_position > 0) {
+          queueInfo.style.display = 'block';
+          queuePos.textContent = data.queue_position;
+          queueTotal.textContent = data.queue_size;
+          
+          const estimatedSeconds = data.queue_position * 30;
+          if (estimatedSeconds < 60) {
+            queueTime.textContent = `~${estimatedSeconds} ثانية`;
+          } else {
+            const mins = Math.floor(estimatedSeconds / 60);
+            const secs = estimatedSeconds % 60;
+            queueTime.textContent = `~${mins} د ${secs} ث`;
+          }
+          
+          loadingTitle.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> في قائمة الانتظار';
+          loadingStage.textContent = `موقعك: ${data.queue_position} من ${data.queue_size}`;
+        } else {
+          queueInfo.style.display = 'none';
+          loadingTitle.innerHTML = '<i class="fa-solid fa-hourglass-half"></i> في قائمة الانتظار';
+          loadingStage.textContent = 'قريباً سيبدأ الفحص...';
+        }
+        
+        progressFill.style.width = '5%';
+        progressText.textContent = '5%';
       }
       
-      // محاكاة تقدم سلس
-      if (data.progress && data.progress > fakeProgress) {
-        fakeProgress = data.progress;
-      } else {
-        fakeProgress = Math.min(90, fakeProgress + 1);
+      // ===== حالة الفحص =====
+      if (data.status === 'scanning') {
+        if (lastStatus === 'queued') {
+          queueInfo.style.display = 'none';
+          loadingTitle.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> جاري الفحص...';
+          fakeProgress = 20;
+        }
+        lastStatus = 'scanning';
+        
+        if (data.stage) {
+          loadingStage.textContent = data.stage;
+        }
+        
+        if (data.progress && data.progress > fakeProgress) {
+          fakeProgress = data.progress;
+        } else {
+          fakeProgress = Math.min(90, fakeProgress + 2);
+        }
+        
+        progressFill.style.width = fakeProgress + '%';
+        progressText.textContent = Math.round(fakeProgress) + '%';
       }
       
-      progressFill.style.width = fakeProgress + '%';
-      progressText.textContent = Math.round(fakeProgress) + '%';
-      
-      // النتيجة
+      // ===== انتهى =====
       if (data.status === 'done') {
         clearInterval(pollTimer);
+        currentJobId = null;  // 🆕
+        cancelBtn.style.display = 'none';  // 🆕 أخفِ الزر
+        queueInfo.style.display = 'none';
         progressFill.style.width = '100%';
         progressText.textContent = '100%';
-        loadingStage.textContent = 'اكتمل الفحص! جاري فتح التقرير...';
+        loadingTitle.innerHTML = '<i class="fa-solid fa-circle-check"></i> اكتمل الفحص';
+        loadingStage.textContent = 'جاري فتح التقرير...';
         
-        // تحديث الإحصائيات
         updateStats();
         
         setTimeout(() => {
@@ -761,6 +1085,7 @@ function startPolling(jobId) {
         }, 800);
       }
       
+      // ===== خطأ =====
       if (data.status === 'error') {
         clearInterval(pollTimer);
         loadingOverlay.classList.remove('active');
@@ -770,7 +1095,7 @@ function startPolling(jobId) {
     } catch (err) {
       console.error(err);
     }
-  }, 1200);
+  }, 1500);
 }
 
 // ============ Stats Update ============
@@ -779,19 +1104,43 @@ async function updateStats() {
     const res = await fetch('/api/stats');
     const data = await res.json();
     
-    document.getElementById('statScans').textContent = data.total_scans || 0;
-    document.getElementById('statUsers').textContent = data.unique_users || 0;
-    document.getElementById('statFiles').textContent = data.total_files || 0;
-    document.getElementById('statSize').textContent = Math.round(data.total_size_mb || 0);
+    const updateEl = (id, value) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      
+      const current = parseInt(el.textContent) || 0;
+      if (current !== value) {
+        el.textContent = value;
+        el.style.transition = 'all 0.3s';
+        el.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+          el.style.transform = 'scale(1)';
+        }, 300);
+      }
+    };
+    
+    updateEl('statScans', data.total_scans || 0);
+    updateEl('statUsers', data.unique_users || 0);
+    updateEl('statFiles', data.total_files || 0);
+    updateEl('statSize', Math.round(data.total_size_mb || 0));
+    
   } catch (err) {
-    console.error(err);
+    console.error('[STATS] Error:', err);
   }
 }
 
 // ============ Init ============
 window.addEventListener('DOMContentLoaded', () => {
-  // تحديث الإحصائيات كل 30 ثانية
-  setInterval(updateStats, 30000);
+  setInterval(updateStats, 10000);
+  window.addEventListener('focus', updateStats);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      updateStats();
+    }
+  });
+  updateStats();
+  
+  console.log('[INIT] Stats auto-refresh enabled');
 });
 </script>
 </body>

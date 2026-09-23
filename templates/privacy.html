@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سياسة الخصوصية - APKscan</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #059669;
+  --primary-dark: #047857;
+  --primary-light: #ecfdf5;
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-sub: #64748b;
+  --border: #e2e8f0;
+  --radius: 20px;
+  --shadow-lg: 0 20px 60px -15px rgba(5,150,105,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Readex Pro', sans-serif; }
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  line-height: 1.8;
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.legal-card {
+  width: 100%;
+  max-width: 750px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-lg);
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  transition: all 0.3s;
+}
+.back-btn:hover {
+  background: #d1fae5;
+  transform: translateX(5px);
+}
+h1 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--primary-dark);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+h1 i {
+  color: var(--primary);
+  font-size: 1.6rem;
+}
+.subtitle {
+  color: var(--text-sub);
+  font-size: 0.9rem;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--border);
+}
+h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  margin: 30px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 18px 0 8px;
+}
+p {
+  color: #334155;
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+ul, ol {
+  padding-right: 24px;
+  margin-bottom: 15px;
+}
+li {
+  color: #334155;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+li::marker {
+  color: var(--primary);
+  font-weight: 700;
+}
+strong {
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+  border-bottom: 1px dashed var(--primary);
+}
+a:hover {
+  border-bottom-style: solid;
+}
+.info-box {
+  background: var(--primary-light);
+  border-right: 4px solid var(--primary);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin: 20px 0;
+}
+.info-box.warning {
+  background: #fff7ed;
+  border-right-color: #f97316;
+}
+.info-box.danger {
+  background: #fef2f2;
+  border-right-color: #dc2626;
+}
+.info-box .box-title {
+  font-weight: 800;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+.info-box.warning .box-title { color: #c2410c; }
+.info-box.danger .box-title { color: #b91c1c; }
+.info-box p {
+  margin-bottom: 8px;
+  font-size: 0.88rem;
+}
+.info-box p:last-child { margin-bottom: 0; }
+.updated {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px solid var(--border);
+  text-align: center;
+  color: var(--text-sub);
+  font-size: 0.82rem;
+}
+.contact-box {
+  background: linear-gradient(135deg, var(--primary), #10b981);
+  color: #fff;
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+.contact-box strong { color: #fff; }
+.contact-box p { color: rgba(255,255,255,0.95); margin: 0; }
+@media (max-width: 500px) {
+  .legal-card { padding: 25px 18px; }
+  h1 { font-size: 1.4rem; }
+  h2 { font-size: 1.05rem; }
+  .info-box { padding: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="legal-card">
+  <a href="/" class="back-btn">
+    <i class="fa-solid fa-arrow-right"></i>
+    العودة للرئيسية
+  </a>
+  
+  <h1>
+    <i class="fa-solid fa-shield-halved"></i>
+    سياسة الخصوصية
+  </h1>
+  <p class="subtitle">
+    خصوصيتك أولويتنا. نوضح لك هنا بدقة: ما نجمعه، كيف نستخدمه، ومتى نحذفه.
+  </p>
+
+  <div class="info-box">
+    <div class="box-title">
+      <i class="fa-solid fa-circle-info"></i>
+      ملخص سريع
+    </div>
+    <p>✅ <strong>لا نحتفظ بملفاتك</strong> — تُحذف تلقائياً بعد 5 دقائق.</p>
+    <p>✅ <strong>لا نشارك بياناتك</strong> مع أي طرف ثالث.</p>
+    <p>✅ <strong>لا نجمع معلومات شخصية</strong> — فقط معرف مجهول للإحصائيات.</p>
+    <p>✅ <strong>لا نستخدم تتبعاً خارجياً</strong> — لا Google Analytics ولا إعلانات.</p>
+  </div>
+
+  <h2><span class="num">1</span> المعلومات التي نجمعها</h2>
+  <p>نحن نجمع الحد الأدنى من المعلومات لتشغيل الخدمة:</p>
+  
+  <h3>أ) الملفات المرفوعة</h3>
+  <ul>
+    <li>ملفات APK و XAPK التي ترفعها</li>
+    <li><strong>تُحذف تلقائياً بعد 5 دقائق</strong> من انتهاء الفحص</li>
+    <li>لا يتم الاحتفاظ بأي نسخة</li>
+    <li>لا نطّلع على محتوى الملف — الفحص آلي</li>
+  </ul>
+  
+  <h3>ب) معرف المستخدم المجهول</h3>
+  <ul>
+    <li>رقم عشوائي (UUID) يتم تخزينه في ملف تعريف ارتباط (Cookie)</li>
+    <li>الغرض: تمييز المستخدمين لإحصائيات عامة</li>
+    <li>لا يحتوي على أي معلومات شخصية</li>
+    <li>لا يمكن من خلاله تحديد هويتك</li>
+  </ul>
+  
+  <h3>ج) إحصائيات عامة</h3>
+  <ul>
+    <li>عدد الفحوصات الكلي</li>
+    <li>عدد المستخدمين الفريدين</li>
+    <li>إجمالي حجم الملفات المفحوصة</li>
+    <li>هذه البيانات <strong>مجمّعة ومجهولة</strong> — لا علاقة لها بك شخصياً</li>
+  </ul>
+
+  <h2><span class="num">2</span> كيف نستخدم المعلومات</h2>
+  <ul>
+    <li>فحص الملف وتقديم التقرير</li>
+    <li>تحسين جودة الخدمة</li>
+    <li>إحصاءات عامة لتطوير الموقع</li>
+    <li>حماية الخدمة من الإساءة</li>
+  </ul>
+
+  <h2><span class="num">3</span> ملفات تعريف الارتباط (Cookies)</h2>
+  <p>نستخدم <strong>ملف تعريف ارتباط واحد فقط</strong>:</p>
+  <ul>
+    <li><strong>الاسم:</strong> apk_scanner_uid</li>
+    <li><strong>المدة:</strong> سنة واحدة</li>
+    <li><strong>الغرض:</strong> معرف مجهول للإحصائيات</li>
+    <li><strong>النوع:</strong> ضروري — لا يمكن تعطيله</li>
+  </ul>
+  
+  <div class="info-box">
+    <div class="box-title">
+      <i class="fa-solid fa-check-circle"></i>
+      لا نستخدم
+    </div>
+    <p>❌ Cookies للتتبع</p>
+    <p>❌ Cookies للإعلانات</p>
+    <p>❌ Cookies من أطراف ثالثة</p>
+  </div>
+
+  <h2><span class="num">4</span> مشاركة البيانات</h2>
+  <div class="info-box danger">
+    <div class="box-title">
+      <i class="fa-solid fa-ban"></i>
+      لا نشارك بياناتك
+    </div>
+    <p>لا نبيع، لا نؤجر، لا نشارك أي بيانات مع أي طرف ثالث.</p>
+  </div>
+  <p>الاستثناء الوحيد:</p>
+  <ul>
+    <li>إذا طلبت سلطة قانونية رسمياً ذلك (بأمر قضائي)</li>
+  </ul>
+
+  <h2><span class="num">5</span> أمان البيانات</h2>
+  <ul>
+    <li>✅ اتصال مشفّر HTTPS</li>
+    <li>✅ حذف تلقائي بعد 5 دقائق</li>
+    <li>✅ لا تخزين دائم للملفات</li>
+    <li>✅ لا مشاركة مع أطراف ثالثة</li>
+    <li>✅ مراجعة أمنية دورية</li>
+  </ul>
+
+  <h2><span class="num">6</span> حقوقك</h2>
+  <p>وفقاً لـ <strong>GDPR</strong> و <strong>CCPA</strong>، لديك الحق في:</p>
+  <ul>
+    <li>🔍 <strong>الوصول:</strong> معرفة ما نجمعه عنك</li>
+    <li>🗑️ <strong>الحذف:</strong> طلب حذف بياناتك</li>
+    <li>✏️ <strong>التصحيح:</strong> تصحيح بياناتك</li>
+    <li>🚫 <strong>الاعتراض:</strong> الاعتراض على المعالجة</li>
+    <li>📦 <strong>النقل:</strong> الحصول على نسخة من بياناتك</li>
+  </ul>
+  <p>لممارسة أي من هذه الحقوق، تواصل معنا.</p>
+
+  <h2><span class="num">7</span> الأطفال</h2>
+  <p>
+    خدمتنا متاحة لجميع الأعمار، لكن لا نجمع معلومات شخصية من الأطفال
+    دون 13 عاماً. إذا اكتشفنا ذلك، سنحذفها فوراً.
+  </p>
+
+  <h2><span class="num">8</span> التعديلات على السياسة</h2>
+  <p>
+    قد نحدّث هذه السياسة من وقت لآخر. التحديثات تصبح سارية فور نشرها.
+    سنخطرك بأي تغييرات جوهرية.
+  </p>
+
+  <h2><span class="num">9</span> التواصل</h2>
+  <div class="contact-box">
+    <p><strong>لأي استفسار بخصوص الخصوصية:</strong></p>
+    <p>📧 عبر نموذج التواصل في الموقع</p>
+  </div>
+
+  <div class="updated">
+    <i class="fa-solid fa-calendar"></i>
+    آخر تحديث: 24 سبتمبر 2026
+  </div>
+</div>
+
+</body>
+</html>
