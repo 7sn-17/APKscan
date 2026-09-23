@@ -1902,10 +1902,14 @@ function showToast(msg) {{
 
 
 # ============ Main Analyze Function ============
-def analyze_apk(apk_path):
+def analyze_apk(apk_path, output_dir=None):
     if not os.path.exists(apk_path):
         print(f"{C.R}[X] File not found: {apk_path}{C.END}")
         return None
+    
+    # 🆕 إذا لم يُمرر output_dir → استخدم cwd
+    if output_dir is None:
+        output_dir = os.getcwd()
     
     file_size = os.path.getsize(apk_path)
     file_name = os.path.basename(apk_path)
@@ -2113,14 +2117,14 @@ def analyze_apk(apk_path):
     }
     
     base_name = file_name.replace('.apk', '').replace('.xapk', '')
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M')
-    
-    json_file = f"apk_report_{base_name}_{timestamp}.json"
-    with open(json_file, "w", encoding="utf-8") as f:
-        json.dump(report, f, ensure_ascii=False, indent=2, default=str)
-    
-    html_file = f"apk_report_{base_name}_{timestamp}.html"
-    generate_html_report(report, html_file)
+timestamp = datetime.now().strftime('%Y%m%d_%H%M')
+
+json_file = os.path.join(output_dir, f"apk_report_{base_name}_{timestamp}.json")
+with open(json_file, "w", encoding="utf-8") as f:
+    json.dump(report, f, ensure_ascii=False, indent=2, default=str)
+
+html_file = os.path.join(output_dir, f"apk_report_{base_name}_{timestamp}.html")
+generate_html_report(report, html_file)
     
     print(f"\n{C.G}[OK] JSON report: {json_file}{C.END}")
     print(f"{C.G}[OK] HTML report: {html_file}{C.END}")
