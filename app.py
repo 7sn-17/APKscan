@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-APK Scanner Web - Flask Server v1.5
+APK Scanner Web - Flask Server v1.5.1
 - حد أقصى 450 MB لكل ملف
 - طابور ذكي (Queue) — لا انهيار
 - حذف التقارير بعد 5 دقائق
 - تنظيف تلقائي كل 5 دقائق
 - إحصائيات دائمة عبر JSONBin مع مزامنة كاملة
 - زر إلغاء المهمة
+- إصلاح: لا chdir — استخدام output_dir مباشرة
 """
 
 import os
@@ -41,19 +42,19 @@ UPLOAD_DIR = tempfile.mkdtemp(prefix="apk_up_")
 REPORTS_DIR = tempfile.mkdtemp(prefix="apk_rp_")
 
 # ============ ثوابت ============
-REPORT_LIFETIME_MINUTES = 5        # ⏱️ حذف التقارير بعد 5 دقائق
-CLEANUP_INTERVAL_SECONDS = 300     # 🧹 تنظيف كل 5 دقائق
-MAX_QUEUE_SIZE = 20                # 📊 الحد الأقصى للطابور
+REPORT_LIFETIME_MINUTES = 5
+CLEANUP_INTERVAL_SECONDS = 300
+MAX_QUEUE_SIZE = 20
 COOKIE_NAME = "apk_scanner_uid"
-COOKIE_MAX_AGE = 365 * 24 * 3600   # سنة
-STATS_CACHE_SECONDS = 30           # 🔄 تحديث الإحصائيات من JSONBin كل 30 ثانية
+COOKIE_MAX_AGE = 365 * 24 * 3600
+STATS_CACHE_SECONDS = 30
 
 # ============ الذاكرة ============
-JOBS = {}                          # المهام النشطة
-JOB_QUEUE = queue.Queue()          # طابور الانتظار
-IS_PROCESSING = threading.Event()  # هل الملف يُعالج الآن؟
-STATS_LOCK = threading.Lock()      # 🔒 قفل لحماية الإحصائيات
-LAST_STATS_LOAD = [0]              # ⏰ آخر تحميل للإحصائيات
+JOBS = {}
+JOB_QUEUE = queue.Queue()
+IS_PROCESSING = threading.Event()
+STATS_LOCK = threading.Lock()
+LAST_STATS_LOAD = [0]
 
 
 # ============ تحميل الإحصائيات الأولي ============
@@ -175,39 +176,60 @@ def background_stats_refresh():
 
 # ============ Analysis ============
 def run_analysis_quiet(apk_path, output_dir):
-    old_cwd = os.getcwd()
-    os.chdir(output_dir)
+    """
+    🆕 تشغيل analyze_apk مع:
+    - تمرير output_dir مباشرة (بدون chdir)
+    - redirect للـ stdout
+    """
+    buf = io.StringIO()
+    
     try:
-        buf = io.StringIO()
+        print(f"[ANALYSIS] Starting: {apk_path}")
+        print(f"[ANALYSIS] Output: {output_dir}")
+        
         with contextlib.redirect_stdout(buf):
-            report = analyze_apk(apk_path)
+            report = analyze_apk(apk_path, output_dir)
+        
+        print(f"[ANALYSIS] Report generated: {bool(report)}")
         
         if report:
-            html_files = [
-                f for f in os.listdir('.')
-                if f.endswith('.html') and f.startswith('apk_report_')
-            ]
-            if html_files:
-                report["html_path"] = os.path.join(output_dir, html_files[0])
-            
-            json_files = [
-                f for f in os.listdir('.')
-                if f.endswith('.json') and f.startswith('apk_report_')
-            ]
-            if json_files:
-                report["json_path"] = os.path.join(output_dir, json_files[0])
+            # ابحث عن التقرير في output_dir
+            try:
+                html_files = [
+                    f for f in os.listdir(output_dir)
+                    if f.endswith('.html') and f.startswith('apk_report_')
+                ]
+                if html_files:
+                    report["html_path"] = os.path.join(output_dir, html_files[0])
+                    print(f"[ANALYSIS] HTML: {html_files[0]}")
+                
+                json_files = [
+                    f for f in os.listdir(output_dir)
+                    if f.endswith('.json') and f.startswith('apk_report_')
+                ]
+                if json_files:
+                    report["json_path"] = os.path.join(output_dir, json_files[0])
+                    print(f"[ANALYSIS] JSON: {json_files[0]}")
+            except Exception as e:
+                print(f"[ANALYSIS] Listdir error: {e}")
+        
         return report
-    finally:
-        os.chdir(old_cwd)
+    except Exception as e:
+        print(f"[ANALYSIS] ERROR: {e}")
+        print(f"[ANALYSIS] Traceback:")
+        traceback.print_exc()
+        return None
 
 
 def process_apk(job_id):
     """معالجة ملف واحد (يُستدعى من العامل)"""
     job = JOBS.get(job_id)
     if not job:
+        print(f"[PROCESS] Job not found: {job_id[:8]}")
         return
     
     try:
+        print(f"[PROCESS] Starting: {job_id[:8]}")
         job["status"] = "scanning"
         job["progress"] = 30
         job["stage"] = "تحليل الملف..."
@@ -219,6 +241,7 @@ def process_apk(job_id):
         if not report:
             job["status"] = "error"
             job["error"] = "فشل تحليل الملف"
+            print(f"[PROCESS] Failed: {job_id[:8]}")
             return
         
         job["progress"] = 95
@@ -252,7 +275,7 @@ def process_apk(job_id):
         
         print(f"[SCAN] After update: {new_count} scans, {new_size} MB")
         
-        # ?? 3. احفظ
+        # 💾 3. احفظ
         save_stats(force=True)
         
         # حذف ملف الرفع
@@ -263,9 +286,12 @@ def process_apk(job_id):
         except Exception:
             pass
         
+        print(f"[PROCESS] Done: {job_id[:8]}")
+        
     except Exception as e:
         job["status"] = "error"
         job["error"] = str(e)
+        print(f"[PROCESS] Exception: {e}")
         traceback.print_exc()
 
 
@@ -292,6 +318,7 @@ def process_queue_worker():
             continue
         except Exception as e:
             print(f"[QUEUE] Error: {e}")
+            traceback.print_exc()
             IS_PROCESSING.clear()
 
 
@@ -445,13 +472,11 @@ def cancel_job(job_id):
     if not job:
         return jsonify({"error": "المهمة غير موجودة"}), 404
     
-    # إذا كانت قيد المعالجة → لا يمكن الإلغاء
     if job["status"] == "scanning":
         return jsonify({
             "error": "لا يمكن الإلغاء — الفحص جاري الآن"
         }), 400
     
-    # إذا كانت في الطابور → احذفها
     if job["status"] == "queued":
         try:
             with JOB_QUEUE.mutex:
@@ -465,7 +490,6 @@ def cancel_job(job_id):
         except Exception as e:
             print(f"[CANCEL] Queue error: {e}")
     
-    # احذف الملفات
     try:
         if job.get("upload_path") and os.path.exists(job["upload_path"]):
             os.remove(job["upload_path"])
@@ -478,7 +502,6 @@ def cancel_job(job_id):
     except Exception:
         pass
     
-    # احذف من JOBS
     JOBS.pop(job_id, None)
     
     print(f"[CANCEL] Job {job_id[:8]}... cancelled")
@@ -525,6 +548,7 @@ def too_large(e):
 def server_error(e):
     return jsonify({"error": "خطأ في السيرفر"}), 500
 
+
 # ============ Legal Pages ============
 @app.route("/privacy")
 def privacy():
@@ -539,6 +563,7 @@ def terms():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 7860))
